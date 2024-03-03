@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
 
@@ -21,7 +21,6 @@ export default function SessionMaker() {
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
-            newOptionRef.current?.focus();
           }
         }}
       />

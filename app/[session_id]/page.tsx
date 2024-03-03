@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { PARTYKIT_URL } from "@/app/env";
 import type { MineField } from "@/app/types";
-import MineFieldUI from "@/components/MineFieldUI";
+import MineFieldGrid from "@/components/MineFieldGrid";
 import Balloon from "@/components/Balloon";
 
 export default async function MineFieldPage({
@@ -32,7 +32,7 @@ export default async function MineFieldPage({
     <>
       <div className="flex flex-col space-y-4">
         <h1 className="text-2xl font-bold">{minefield.title}</h1>
-        <MineFieldUI id={sessionId} minefield={minefield} />
+        <MineFieldGrid id={sessionId} minefield={minefield} />
       </div>
 
       <Balloon float />

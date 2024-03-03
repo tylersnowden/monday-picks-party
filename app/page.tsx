@@ -21,7 +21,7 @@ export default function Home() {
       cells.push({
         x: i % 10,
         y: Math.floor(i / 10),
-        value: 0,
+        value: Math.floor(Math.random() * 10),
         revealed: false,
         flagged: false,
       } as CellType);

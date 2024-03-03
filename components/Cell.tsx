@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { Cell as CellType } from "@/app/types";
 
 export default function Cell({
   x,
@@ -8,12 +9,16 @@ export default function Cell({
   value,
   revealed,
   flagged,
+  clickHandler,
+  rightClickHandler
 }: {
   x: number;
   y: number;
   value: number;
   revealed: boolean;
   flagged: boolean;
+  clickHandler: (cell: CellType) => void;
+  rightClickHandler: (x: number, y: number) => void;
 }) {
   const [hover, setHover] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -24,15 +29,15 @@ export default function Cell({
       className={`cell ${revealed ? "revealed" : ""} ${
         flagged ? "flagged" : ""
       }`}
-      onClick={() => {}}
-      // On Right Click, toggle flag
+      onClick={() => clickHandler({ x: x, y: y, revealed: true, flagged: false, value: value } as CellType)}
       onContextMenu={(e) => {
         e.preventDefault();
+        rightClickHandler(x, y);
       }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      {revealed && value !== 0 && value !== 9 ? value : ""}
+      {revealed && value !== 9 ? value : ""}
       {revealed && value === 9 ? "💣" : ""}
       {!revealed && flagged ? "🚩" : ""}
       {!revealed && !flagged && hover ? "❔" : ""}

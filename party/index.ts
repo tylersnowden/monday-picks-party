@@ -6,7 +6,6 @@ export default class Server implements Party.Server {
   constructor(readonly room: Party.Room) {}
 
   minefield: MineField | undefined;
-  // cell: Cell | undefined;
 
   async onStart() {
     this.minefield = await this.room.storage.get<MineField>("minefield");
@@ -18,11 +17,21 @@ export default class Server implements Party.Server {
     }
   }
 
+
+
   async onMessage(message: string) {
     if (!this.minefield) return;
 
     const event = JSON.parse(message);
-    if (event.type === "click") {
+    if (event.type === "cell") {
+      const cell = event.cell as Cell;
+      this.minefield.cells = this.minefield.cells.map((c) => {
+        if (c.x === cell.x && c.y === cell.y) {
+          return cell;
+        }
+        return c;
+      });
+
       this.room.broadcast(JSON.stringify(this.minefield));
       this.saveMineField();
     }
