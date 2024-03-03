@@ -3,6 +3,7 @@ import { PARTYKIT_URL } from "@/app/env";
 import type { MineField } from "@/app/types";
 import MineFieldGrid from "@/components/MineFieldGrid";
 import Balloon from "@/components/Balloon";
+import Script from 'next/script'
 
 export default async function MineFieldPage({
   params,
@@ -36,6 +37,7 @@ export default async function MineFieldPage({
       </div>
 
       <Balloon float />
+      <Script src="https://cursor-party.tylersnowden.partykit.dev/cursors.js"></Script>
     </>
   );
 }
