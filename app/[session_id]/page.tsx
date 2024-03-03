@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
-import { PARTYKIT_URL } from "@/app/env";
+import { PARTYKIT_URL, PARTYKIT_HOST } from "@/app/env";
 import type { MineField } from "@/app/types";
 import MineFieldGrid from "@/components/MineFieldGrid";
 import Balloon from "@/components/Balloon";
-import Script from 'next/script'
+import SharedSpace from "@/app/shared-space";
+import CursorsContextProvider from "@/app/cursors-context";
 
 export default async function MineFieldPage({
   params,
@@ -31,13 +32,15 @@ export default async function MineFieldPage({
 
   return (
     <>
-      <div className="flex flex-col space-y-4">
-        <h1 className="text-2xl font-bold">{minefield.title}</h1>
-        <MineFieldGrid id={sessionId} minefield={minefield} />
-      </div>
+      <CursorsContextProvider room={sessionId} host={PARTYKIT_HOST}>
+        <div className="flex flex-col space-y-4">
+          <h1 className="text-2xl font-bold">{minefield.title}</h1>
+          <MineFieldGrid id={sessionId} minefield={minefield} />
+        </div>
+        <Balloon float />
 
-      <Balloon float />
-      <Script src="https://cursor-party.tylersnowden.partykit.dev/cursors.js"></Script>
+        <SharedSpace />
+      </CursorsContextProvider>
     </>
   );
 }
