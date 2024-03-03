@@ -1,11 +1,8 @@
-import Button from "@/components/Button";
 import SessionMaker from "@/components/SessionMaker";
 import Balloon from "@/components/Balloon";
 import { MineField, Cell as CellType } from "@/app/types";
 import { redirect } from "next/navigation";
 import { PARTYKIT_URL } from "./env";
-import Input from "@/components/Input";
-import Cell from "@/components/Cell";
 
 const randomId = () => Math.random().toString(36).substring(2, 10);
 
@@ -54,6 +51,7 @@ export default function Home() {
       title,
       size: 10,
       cells: cells,
+      status: "playing",
     };
 
     await fetch(`${PARTYKIT_URL}/party/${id}`, {

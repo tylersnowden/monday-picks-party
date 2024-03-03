@@ -49,30 +49,23 @@ export default function MineFieldGrid({
     }
   }
 
-  // prevent double clicking
-  /*useEffect(() => {
-    let saved = localStorage?.getItem("minefield:" + id);
-    if (minefield === null && saved !== null) {
-      setCell(JSON.parse(saved));
-    } else if (minefield !== null && saved === null) {
-      localStorage?.setItem("minefield:" + id, JSON.stringify(minefield));
-    }
-  }, [id, minefield]);*/
-
-    return (
-        <div className="grid grid-cols-10 gap-1">
-        {cells.map((c, i) => (
-            <Cell
-                key={i}
-                x={c.x}
-                y={c.y}
-                value={c.value}
-                revealed={c.revealed}
-                flagged={c.flagged}
-                clickHandler={(c) => setCell(c)}
-                rightClickHandler={(c) => setCell(c)}
-            />
-        ))}
-        </div>
-    );
+  return (
+    <>
+      <div className="grid grid-cols-10 gap-1">
+      {cells.map((c, i) => (
+          <Cell
+              key={i}
+              x={c.x}
+              y={c.y}
+              value={c.value}
+              revealed={c.revealed}
+              flagged={c.flagged}
+              clickHandler={(c) => setCell(c)}
+              rightClickHandler={(c) => setCell(c)}
+          />
+      ))}
+      </div>
+      <div className="text-center capitalize">Status: {minefield.status}</div>
+      </>
+  );
 }

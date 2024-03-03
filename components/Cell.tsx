@@ -33,7 +33,7 @@ export default function Cell({
       onContextMenu={(e) => {
         e.preventDefault();
         if (revealed) return;
-        rightClickHandler({ x: x, y: y, revealed: false, flagged: true, value: value } as CellType);
+        rightClickHandler({ x: x, y: y, revealed: false, flagged: !flagged, value: value } as CellType);
       }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -41,7 +41,7 @@ export default function Cell({
       {revealed && value !== 9 ? value : ""}
       {revealed && value === 9 ? "💣" : ""}
       {!revealed && flagged ? "🚩" : ""}
-      {!revealed && !flagged && hover ? "❔" : ""}
+      {!revealed && !flagged && hover ? "❓" : ""}
     </div>
   );
 }

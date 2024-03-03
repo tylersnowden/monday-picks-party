@@ -20,15 +20,35 @@ export default class Server implements Party.Server {
   async onMessage(message: string) {
     if (!this.minefield) return;
 
+    let loss = false;
     const event = JSON.parse(message);
     if (event.type === "cell") {
       const cell = event.cell as Cell;
       this.minefield.cells = this.minefield.cells.map((c) => {
         if (c.x === cell.x && c.y === cell.y) {
+          if (cell.revealed && cell.value === 9) {
+            loss = true;
+          }
           return cell;
         }
         return c;
       });
+
+      if (loss) {
+        this.minefield.status = "lost";
+      } else {
+        let win = true;
+        this.minefield.cells.forEach((c) => {
+          if (c.value === 9 && !c.flagged) {
+            win = false;
+            return;
+          }
+        });
+  
+        if (win) {
+          this.minefield.status = "won";
+        }
+      }
 
       this.room.broadcast(JSON.stringify(this.minefield));
       this.saveMineField();
