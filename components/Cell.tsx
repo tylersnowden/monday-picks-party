@@ -18,7 +18,7 @@ export default function Cell({
   revealed: boolean;
   flagged: boolean;
   clickHandler: (cell: CellType) => void;
-  rightClickHandler: (x: number, y: number) => void;
+  rightClickHandler: (cell: CellType) => void;
 }) {
   const [hover, setHover] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -32,7 +32,7 @@ export default function Cell({
       onClick={() => clickHandler({ x: x, y: y, revealed: true, flagged: false, value: value } as CellType)}
       onContextMenu={(e) => {
         e.preventDefault();
-        rightClickHandler(x, y);
+        rightClickHandler({ x: x, y: y, revealed: false, flagged: true, value: value } as CellType);
       }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}

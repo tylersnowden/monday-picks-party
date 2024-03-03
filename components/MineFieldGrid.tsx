@@ -63,7 +63,7 @@ export default function MineFieldGrid({
                 revealed={c.revealed}
                 flagged={c.flagged}
                 clickHandler={(c) => setCell(c)}
-                rightClickHandler={() => {}}
+                rightClickHandler={(c) => setCell(c)}
             />
         ))}
         </div>
