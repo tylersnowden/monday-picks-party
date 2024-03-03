@@ -17,8 +17,6 @@ export default class Server implements Party.Server {
     }
   }
 
-
-
   async onMessage(message: string) {
     if (!this.minefield) return;
 
