@@ -8,14 +8,12 @@ export default function Cell({
   value,
   revealed,
   flagged,
-  onClick,
 }: {
   x: number;
   y: number;
   value: number;
   revealed: boolean;
   flagged: boolean;
-  onClick: () => void;
 }) {
   const [hover, setHover] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -26,7 +24,8 @@ export default function Cell({
       className={`cell ${revealed ? "revealed" : ""} ${
         flagged ? "flagged" : ""
       }`}
-      onClick={onClick}
+      onClick={() => {}}
+      // On Right Click, toggle flag
       onContextMenu={(e) => {
         e.preventDefault();
       }}
@@ -36,7 +35,7 @@ export default function Cell({
       {revealed && value !== 0 && value !== 9 ? value : ""}
       {revealed && value === 9 ? "💣" : ""}
       {!revealed && flagged ? "🚩" : ""}
-      {!revealed && hover ? "❔" : ""}
+      {!revealed && !flagged && hover ? "❔" : ""}
     </div>
   );
 }

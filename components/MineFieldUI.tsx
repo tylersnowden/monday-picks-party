@@ -8,14 +8,12 @@ import { useEffect, useState } from "react";
 
 export default function MineFieldUI({
   id,
-  minefield,
-  initialCells,
+  minefield
 }: {
   id: string;
   minefield: MineField;
-  initialCells?: Cell[];
 }) {
-  const [cells, setCells] = useState<Cell[]>(initialCells ?? []);
+  const [cells, setCells] = useState<Cell[]>(minefield.cells ?? []);
   const [cell, setCell] = useState<Cell | null>(null);
 
   const socket = usePartySocket({

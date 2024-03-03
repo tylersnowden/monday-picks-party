@@ -1,42 +1,42 @@
 import type * as Party from "partykit/server";
 
-import type { MineField } from "@/app/types";
+import type { MineField, Cell } from "@/app/types";
 
 export default class Server implements Party.Server {
   constructor(readonly room: Party.Room) {}
 
-  poll: MineField | undefined;
+  minefield: MineField | undefined;
+  // cell: Cell | undefined;
 
   async onStart() {
-    this.poll = await this.room.storage.get<MineField>("poll");
+    this.minefield = await this.room.storage.get<MineField>("minefield");
   }
 
-  async savePoll() {
-    if (this.poll) {
-      await this.room.storage.put<MineField>("poll", this.poll);
+  async saveMineField() {
+    if (this.minefield) {
+      await this.room.storage.put<MineField>("minefield", this.minefield);
     }
   }
 
   async onMessage(message: string) {
-    if (!this.poll) return;
+    if (!this.minefield) return;
 
     const event = JSON.parse(message);
-    if (event.type === "vote") {
-      this.poll.votes![event.option] += 1;
-      this.room.broadcast(JSON.stringify(this.poll));
-      this.savePoll();
+    if (event.type === "click") {
+      this.room.broadcast(JSON.stringify(this.minefield));
+      this.saveMineField();
     }
   }
 
   async onRequest(req: Party.Request) {
     if (req.method === "POST") {
-      const poll = (await req.json()) as MineField;
-      this.poll = { ...poll, votes: poll.options.map(() => 0) };
-      this.savePoll();
+      const minefield = (await req.json()) as MineField;
+      this.minefield = minefield;
+      this.saveMineField();
     }
 
-    if (this.poll) {
-      return new Response(JSON.stringify(this.poll), {
+    if (this.minefield) {
+      return new Response(JSON.stringify(this.minefield), {
         status: 200,
         headers: { "Content-Type": "application/json" }
       });

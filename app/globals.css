@@ -46,4 +46,13 @@ body {
   .vote-bg-winning {
     background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
   }
+
+  .cell {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    padding: 2px;
+    text-align: center;
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
 }
