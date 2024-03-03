@@ -16,7 +16,7 @@ export default function Home() {
     const title = formData.get("title")?.toString() ?? "Anonymous minefield";
 
     const id = randomId();
-    let cells = [];
+    let cells: CellType[] = [];
     // Create Cells and Set Mines
     for (let i = 0; i < 100; i++) {
       cells.push({

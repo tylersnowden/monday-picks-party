@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.partykit.io/schema.json",
-  "name": "partypolls-party",
+  "name": "monday-picks-party",
   "main": "party/index.ts",
   "compatibilityDate": "2024-03-02"
 }

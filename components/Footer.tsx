@@ -5,26 +5,10 @@ export default function Footer() {
       <div>
         <a
           className="underline"
-          href="https://docs.partykit.io"
+          href="https://mondaypicks.com"
           target="_blank"
         >
-          Docs
-        </a>{" "}
-        |{" "}
-        <a
-          className="underline"
-          href="https://github.com/partykit/partypoll"
-          target="_blank"
-        >
-          GitHub
-        </a>{" "}
-        |{" "}
-        <a
-          className="underline"
-          href="https://docs.partykit.io/tutorials/add-partykit-to-a-nextjs-app/1-what-you-will-build/"
-          target="_blank"
-        >
-          Tutorial
+          MondayPicks
         </a>
       </div>
     </div>
