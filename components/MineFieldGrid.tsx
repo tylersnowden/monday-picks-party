@@ -31,19 +31,22 @@ export default function MineFieldGrid({
   };
 
   const setCell = (cell: CellType) => {
-    if (cell.revealed) {
-      return;
-    }
-
+    let changed = false;
     // in cells, find the cell with the same x and y and replace it with the new cell
     const newCells = cells.map((c) => {
       if (c.x === cell.x && c.y === cell.y) {
+        if (c.revealed) {
+          return c;
+        }
+        changed = true;
         return cell;
       }
       return c;
     });
-    setCells(newCells);
-    sendCell(cell);
+    if (changed) {
+      setCells(newCells);
+      sendCell(cell);
+    }
   }
 
   // prevent double clicking

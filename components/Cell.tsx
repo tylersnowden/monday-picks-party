@@ -32,6 +32,7 @@ export default function Cell({
       onClick={() => clickHandler({ x: x, y: y, revealed: true, flagged: false, value: value } as CellType)}
       onContextMenu={(e) => {
         e.preventDefault();
+        if (revealed) return;
         rightClickHandler({ x: x, y: y, revealed: false, flagged: true, value: value } as CellType);
       }}
       onMouseEnter={() => setHover(true)}
