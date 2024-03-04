@@ -22,7 +22,9 @@ export default class Server implements Party.Server {
 
     let loss = false;
     const event = JSON.parse(message);
-    if (event.type === "cell") {
+    if (event.type === "minefield") {
+      this.minefield = event.minefield;
+    } else if (event.type === "cell") {
       const cell = event.cell as Cell;
       this.minefield.cells = this.minefield.cells.map((c) => {
         if (c.x === cell.x && c.y === cell.y) {
@@ -49,10 +51,10 @@ export default class Server implements Party.Server {
           this.minefield.status = "won";
         }
       }
-
-      this.room.broadcast(JSON.stringify(this.minefield));
-      this.saveMineField();
     }
+
+    this.room.broadcast(JSON.stringify(this.minefield));
+    this.saveMineField();
   }
 
   async onRequest(req: Party.Request) {

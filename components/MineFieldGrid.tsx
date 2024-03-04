@@ -1,10 +1,11 @@
 "use client";
 
-import { PARTYKIT_HOST } from "@/app/env";
+import { PARTYKIT_URL, PARTYKIT_HOST } from "@/app/env";
 import { MineField, Cell as CellType } from "@/app/types";
 import Cell from "@/components/Cell";
 import usePartySocket from "partysocket/react";
 import { useEffect, useState } from "react";
+import Button from "./Button";
 
 export default function MineFieldGrid({
   id,
@@ -23,11 +24,18 @@ export default function MineFieldGrid({
       if (message.cells) {
         setCells(message.cells);
       }
+      if (message.status) {
+        minefield.status = message.status;
+      }
     }
   });
 
   const sendCell = (cell: CellType) => {
     socket.send(JSON.stringify({ type: "cell", cell: cell }));
+  };
+
+  const sendReset = (minefield: MineField) => {
+    socket.send(JSON.stringify({ type: "minefield", minefield: minefield }));
   };
 
   const setCell = (cell: CellType) => {
@@ -49,8 +57,37 @@ export default function MineFieldGrid({
     }
   }
 
+  const resetMineField = async () => {
+    const cells = minefield.cells.map((cell) => {
+      return {
+        ...cell,
+        revealed: false,
+        flagged: false,
+      };
+    });
+    setCells(cells);
+
+    const updatedMinefield = {
+      ...minefield,
+      cells: cells,
+      status: "playing",
+    } as MineField;
+
+    sendReset(updatedMinefield);
+  }
+
   return (
     <>
+      <div className="flex justify-between">
+          <h1 className="text-2xl font-bold">{minefield.title}</h1>
+          <div className="text-right">
+              <form action={resetMineField}>
+              <Button type="submit">
+                  Reset
+              </Button>
+              </form>
+          </div>
+      </div>
       <div className="grid grid-cols-10 gap-1">
       {cells.map((c, i) => (
           <Cell
