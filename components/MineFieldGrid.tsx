@@ -7,6 +7,7 @@ import usePartySocket from "partysocket/react";
 import { useEffect, useState } from "react";
 import Button from "./Button";
 import { generateMineField } from "@/app/utils";
+import toastr from "toastr";
 
 export default function MineFieldGrid({
   id,
@@ -26,6 +27,11 @@ export default function MineFieldGrid({
         setCells(message.cells);
       }
       if (message.status) {
+        if (message.status != minefield.status && message.status === "lost") {
+          toastr.error("You stepped on a mine! You Lost!");
+        } else if (message.status != minefield.status && minefield.status === "won") {
+          toastr.success("You won!");
+        }
         minefield.status = message.status;
       }
     }

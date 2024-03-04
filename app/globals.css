@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "toastr";
 
 body {
   width: 100%;
@@ -10,9 +11,9 @@ body {
   background-color: #4158d0;
   background-image: linear-gradient(
     43deg,
-    #4158d0 0%,
-    #c850c0 46%,
-    #ffcc70 100%
+    #41d075 0%,
+    #5058c8 46%,
+    #ff7070 100%
   );
 
   color: black;
