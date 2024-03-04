@@ -6,6 +6,7 @@ import Cell from "@/components/Cell";
 import usePartySocket from "partysocket/react";
 import { useEffect, useState } from "react";
 import Button from "./Button";
+import { generateMineField } from "@/app/utils";
 
 export default function MineFieldGrid({
   id,
@@ -34,10 +35,6 @@ export default function MineFieldGrid({
     socket.send(JSON.stringify({ type: "cell", cell: cell }));
   };
 
-  const sendReset = (minefield: MineField) => {
-    socket.send(JSON.stringify({ type: "minefield", minefield: minefield }));
-  };
-
   const setCell = (cell: CellType) => {
     let changed = false;
     // in cells, find the cell with the same x and y and replace it with the new cell
@@ -58,23 +55,9 @@ export default function MineFieldGrid({
   }
 
   const resetMineField = async () => {
-    const cells = minefield.cells.map((cell) => {
-      return {
-        ...cell,
-        revealed: false,
-        flagged: false,
-      };
-    });
-    setCells(cells);
-
-    const updatedMinefield = {
-      ...minefield,
-      cells: cells,
-      status: "playing",
-    } as MineField;
-
-    sendReset(updatedMinefield);
-  }
+    let newMineField = generateMineField(minefield.title);
+    socket.send(JSON.stringify({ type: "minefield", minefield: newMineField }));
+  };
 
   return (
     <>
