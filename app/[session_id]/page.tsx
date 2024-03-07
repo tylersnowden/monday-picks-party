@@ -36,7 +36,6 @@ export default async function MineFieldPage({
         <div className="flex flex-col space-y-4">
           <MineFieldGrid id={sessionId} minefield={minefield} />
         </div>
-        <Balloon float />
 
         <SharedSpace />
       </CursorsContextProvider>
