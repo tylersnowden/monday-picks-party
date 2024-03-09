@@ -1,6 +1,6 @@
 import { MineField, Cell as CellType } from "./types";
 
-export function generateMineField(title: string): MineField 
+export function generateMineField(): MineField 
 {
     let cells: CellType[] = [];
     // Create Cells and Set Mines
@@ -37,7 +37,6 @@ export function generateMineField(title: string): MineField
       cell.value = count;
     });
     return {
-      title,
       size: 10,
       cells: cells,
       status: "playing",

@@ -1,26 +1,28 @@
 "use client";
 
-import { PARTYKIT_URL, PARTYKIT_HOST } from "@/app/env";
+import { PARTYKIT_HOST } from "@/app/env";
 import { MineField, Cell as CellType } from "@/app/games/minefield/types";
 import Cell from "@/app/games/minefield/Cell";
 import usePartySocket from "partysocket/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../../../components/Button";
 import { generateMineField } from "@/app/games/minefield/utils";
 import toastr from "toastr";
 
 export default function MineFieldGame({
-  id,
+  sessionId,
+  title,
   minefield,
 }: {
-  id: string,
+  sessionId: string,
+  title: string,
   minefield: MineField
 }) {
   const [cells, setCells] = useState<CellType[]>(minefield.cells ?? []);
 
   const socket = usePartySocket({
     host: PARTYKIT_HOST,
-    room: id,
+    room: sessionId,
     onMessage(event) {
       const message = JSON.parse(event.data) as MineField;
       if (message.cells) {
@@ -61,14 +63,14 @@ export default function MineFieldGame({
   }
 
   const resetMineField = async () => {
-    let newMineField = generateMineField(minefield.title);
+    let newMineField = generateMineField();
     socket.send(JSON.stringify({ type: "minefield", minefield: newMineField }));
   };
 
   return (
     <>
       <div className="flex justify-between">
-          <h1 className="text-2xl font-bold">{minefield.title}</h1>
+          <h1 className="text-2xl font-bold">{title}</h1>
           <div className="text-right">
               <form action={resetMineField}>
               <Button type="submit">
