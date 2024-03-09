@@ -1,15 +1,15 @@
 "use client";
 
 import { PARTYKIT_URL, PARTYKIT_HOST } from "@/app/env";
-import { MineField, Cell as CellType } from "@/app/types";
-import Cell from "@/components/Cell";
+import { MineField, Cell as CellType } from "@/app/games/minefield/types";
+import Cell from "@/app/games/minefield/Cell";
 import usePartySocket from "partysocket/react";
 import { useEffect, useState } from "react";
-import Button from "./Button";
-import { generateMineField } from "@/app/utils";
+import Button from "../../../components/Button";
+import { generateMineField } from "@/app/games/minefield/utils";
 import toastr from "toastr";
 
-export default function MineFieldGrid({
+export default function MineFieldGame({
   id,
   minefield,
 }: {

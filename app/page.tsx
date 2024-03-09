@@ -3,7 +3,7 @@ import Balloon from "@/components/Balloon";
 import { MineField, Cell as CellType } from "@/app/types";
 import { redirect } from "next/navigation";
 import { PARTYKIT_URL } from "./env";
-import { generateMineField } from "./utils";
+import { generateMineField } from "./games/minefield/utils";
 
 const randomId = () => Math.random().toString(36).substring(2, 10);
 
