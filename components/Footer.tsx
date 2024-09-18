@@ -5,6 +5,15 @@ export default function Footer() {
       <div>
         <a
           className="underline"
+          href="https://github.com/tylersnowden/monday-picks-party"
+          target="_blank"
+        >
+          View the Source on Github
+        </a>
+      </div>
+      <div>
+        <a
+          className="underline"
           href="https://mondaypicks.com"
           target="_blank"
         >
