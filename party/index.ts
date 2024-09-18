@@ -1,33 +1,32 @@
 import type * as Party from "partykit/server";
 
-import type { MineField, Cell } from "@/app/games/minefield/types";
-import { GameObject } from "@/app/types";
+import type { MineField, Cell } from "@/app/types";
 
 export default class Server implements Party.Server {
   constructor(readonly room: Party.Room) {}
 
-  gameObject: GameObject | undefined;
+  minefield: MineField | undefined;
 
   async onStart() {
-    this.gameObject = await this.room.storage.get<GameObject>("gameObject");
+    this.minefield = await this.room.storage.get<MineField>("minefield");
   }
 
-  async saveGameObject() {
-    if (this.gameObject) {
-      await this.room.storage.put<GameObject>("gameObject", this.gameObject);
+  async saveMineField() {
+    if (this.minefield) {
+      await this.room.storage.put<MineField>("minefield", this.minefield);
     }
   }
 
   async onMessage(message: string) {
-    if (!this.gameObject) return;
+    if (!this.minefield) return;
 
     let loss = false;
     const event = JSON.parse(message);
     if (event.type === "minefield") {
-      this.gameObject.game = event.minefield;
+      this.minefield = event.minefield;
     } else if (event.type === "cell") {
       const cell = event.cell as Cell;
-      this.gameObject.game.cells = this.gameObject.game.cells.map((c) => {
+      this.minefield.cells = this.minefield.cells.map((c) => {
         if (c.x === cell.x && c.y === cell.y) {
           if (cell.revealed && cell.value === 9) {
             loss = true;
@@ -38,10 +37,10 @@ export default class Server implements Party.Server {
       });
 
       if (loss) {
-        this.gameObject.game.status = "lost";
+        this.minefield.status = "lost";
       } else {
         let win = true;
-        this.gameObject.game.cells.forEach((c) => {
+        this.minefield.cells.forEach((c) => {
           if (c.value === 9 && !c.flagged) {
             win = false;
             return;
@@ -49,24 +48,24 @@ export default class Server implements Party.Server {
         });
   
         if (win) {
-          this.gameObject.game.status = "won";
+          this.minefield.status = "won";
         }
       }
     }
 
-    this.room.broadcast(JSON.stringify(this.gameObject));
-    this.saveGameObject();
+    this.room.broadcast(JSON.stringify(this.minefield));
+    this.saveMineField();
   }
 
   async onRequest(req: Party.Request) {
     if (req.method === "POST") {
-      const game = (await req.json()) as GameObject;
-      this.gameObject = game;
-      this.saveGameObject();
+      const minefield = (await req.json()) as MineField;
+      this.minefield = minefield;
+      this.saveMineField();
     }
 
-    if (this.gameObject) {
-      return new Response(JSON.stringify(this.gameObject), {
+    if (this.minefield) {
+      return new Response(JSON.stringify(this.minefield), {
         status: 200,
         headers: { "Content-Type": "application/json" }
       });

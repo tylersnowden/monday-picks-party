@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import { PARTYKIT_URL, PARTYKIT_HOST } from "@/app/env";
-import type { GameObject } from "@/app/types";
-import GameManager from "@/components/GameManager";
+import type { MineField } from "@/app/games/minefield/types";
+import MineFieldGame from "@/app/games/minefield/MineFieldGame";
 import SharedSpace from "@/app/cursor/shared-space";
 import CursorsContextProvider from "@/app/cursor/cursors-context";
 
-export default async function GamePage({
+export default async function MineFieldPage({
   params,
 }: {
   params: { session_id: string };
@@ -27,13 +27,13 @@ export default async function GamePage({
     }
   }
 
-  const gameObject = (await req.json()) as GameObject;
+  const minefield = (await req.json()) as MineField;
 
   return (
     <>
       <CursorsContextProvider room={sessionId} host={PARTYKIT_HOST}>
         <div className="flex flex-col space-y-4">
-          <GameManager sessionId={sessionId} gameObject={gameObject} />
+          <MineFieldGame id={sessionId} minefield={minefield} />
         </div>
 
         <SharedSpace />
