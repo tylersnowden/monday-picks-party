@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Cell as CellType } from "@/app/games/minefield/types";
+import { Cell as CellType } from "@/app/types";
 
 export default function Cell({
   x,
